@@ -1,0 +1,14 @@
+database_path: "prompt_studio.db"
+
+models:
+  - name: "Llama3 8B (Internal)"
+    api_base: "http://192.168.1.100:8080/v1"
+    # api_key: "optional-key-if-needed"
+  - name: "Mistral 7B (Internal)"
+    api_base: "http://192.168.1.101:8080/v1"
+  - name: "GPT-4 (OpenAI)"
+    api_base: "https://api.openai.com/v1"
+    api_key: "your-openai-api-key"
+  - name: "Claude 3.5 Sonnet (Anthropic)"
+    api_base: "https://api.anthropic.com/v1"
+    api_key: "your-anthropic-api-key"
