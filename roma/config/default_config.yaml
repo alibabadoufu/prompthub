@@ -1,0 +1,106 @@
+# ROMA Research Agent Default Configuration
+
+workflow:
+  # Maximum number of files to process concurrently during content extraction
+  max_concurrent_files: 10
+  
+  # Maximum number of content items to analyze concurrently
+  max_concurrent_analysis: 5
+  
+  # Research depth: shallow, medium, or deep
+  research_depth: "medium"
+  
+  # Maximum number of research results to return
+  max_results: 50
+
+logging:
+  # Logging level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Optional log file path (null for console only)
+  log_file: null
+  
+  # Log message format
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+file_processing:
+  # Maximum file size to process (in MB)
+  max_file_size_mb: 100
+  
+  # Supported file extensions for processing
+  supported_extensions:
+    - ".txt"
+    - ".md"
+    - ".py"
+    - ".js"
+    - ".html"
+    - ".css"
+    - ".json"
+    - ".xml"
+    - ".yaml"
+    - ".yml"
+    - ".csv"
+    - ".log"
+    - ".rst"
+    - ".tex"
+    - ".sql"
+    - ".sh"
+    - ".bat"
+    - ".c"
+    - ".cpp"
+    - ".h"
+    - ".java"
+    - ".php"
+    - ".rb"
+    - ".go"
+    - ".rs"
+    - ".pdf"
+    - ".docx"
+    - ".xlsx"
+  
+  # File patterns to exclude from processing
+  exclude_patterns:
+    - "*.pyc"
+    - "*.pyo"
+    - "*.pyd"
+    - "__pycache__/*"
+    - ".git/*"
+    - ".svn/*"
+    - "node_modules/*"
+    - "*.log"
+    - "*.tmp"
+    - "*.temp"
+    - ".DS_Store"
+    - "Thumbs.db"
+    - "*.bak"
+    - "*.swp"
+    - "*.swo"
+
+analysis:
+  # Minimum keyword length to consider
+  min_keyword_length: 3
+  
+  # Maximum number of keywords to extract per file
+  max_keywords_per_file: 20
+  
+  # Minimum content length to analyze (in characters)
+  min_content_length: 10
+  
+  # Text chunk size for processing large files
+  chunk_size: 1000
+  
+  # Overlap between chunks
+  chunk_overlap: 100
+
+research:
+  # Minimum confidence threshold for including findings
+  min_confidence_threshold: 0.1
+  
+  # Maximum findings to return per category
+  max_findings_per_category: 10
+  
+  # Enable entity extraction during analysis
+  enable_entity_extraction: true
+  
+  # Enable relationship extraction during analysis
+  enable_relationship_extraction: true

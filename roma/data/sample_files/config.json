@@ -1,0 +1,108 @@
+{
+  "application": {
+    "name": "ROMA Research Agent",
+    "version": "1.0.0",
+    "description": "A Python-based LangGraph workflow for deep research on local files"
+  },
+  "database": {
+    "host": "localhost",
+    "port": 5432,
+    "name": "roma_db",
+    "user": "roma_user",
+    "connection_pool_size": 10,
+    "timeout": 30
+  },
+  "api": {
+    "base_url": "https://api.roma-research.com",
+    "version": "v1",
+    "endpoints": {
+      "research": "/research",
+      "analysis": "/analysis",
+      "reports": "/reports",
+      "health": "/health"
+    },
+    "rate_limiting": {
+      "requests_per_minute": 100,
+      "burst_limit": 20
+    },
+    "authentication": {
+      "type": "bearer_token",
+      "token_expiry": 3600
+    }
+  },
+  "processing": {
+    "max_file_size_mb": 100,
+    "concurrent_workers": 4,
+    "supported_formats": [
+      "txt", "md", "py", "js", "json", "yaml", 
+      "pdf", "docx", "xlsx", "html", "xml"
+    ],
+    "analysis_settings": {
+      "min_keyword_length": 3,
+      "max_keywords_per_document": 50,
+      "enable_entity_extraction": true,
+      "enable_sentiment_analysis": false
+    }
+  },
+  "logging": {
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    "handlers": [
+      {
+        "type": "console",
+        "level": "INFO"
+      },
+      {
+        "type": "file",
+        "level": "DEBUG",
+        "filename": "logs/roma.log",
+        "max_size_mb": 10,
+        "backup_count": 5
+      }
+    ]
+  },
+  "security": {
+    "encryption": {
+      "algorithm": "AES-256",
+      "key_rotation_days": 90
+    },
+    "access_control": {
+      "enable_rbac": true,
+      "default_permissions": ["read", "analyze"],
+      "admin_permissions": ["read", "write", "analyze", "configure", "delete"]
+    }
+  },
+  "features": {
+    "experimental": {
+      "advanced_nlp": false,
+      "real_time_processing": false,
+      "distributed_analysis": false
+    },
+    "integrations": {
+      "elasticsearch": {
+        "enabled": false,
+        "host": "localhost",
+        "port": 9200,
+        "index_prefix": "roma_"
+      },
+      "redis": {
+        "enabled": false,
+        "host": "localhost", 
+        "port": 6379,
+        "db": 0
+      }
+    }
+  },
+  "performance": {
+    "caching": {
+      "enable_file_cache": true,
+      "cache_ttl_seconds": 3600,
+      "max_cache_size_mb": 500
+    },
+    "optimization": {
+      "enable_parallel_processing": true,
+      "chunk_size": 1000,
+      "memory_limit_mb": 2048
+    }
+  }
+}
