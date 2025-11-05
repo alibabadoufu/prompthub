@@ -1,0 +1,115 @@
+import gradio as gr
+import time
+
+def chatbot_response(message, history):
+    """
+    Simple chatbot function that echoes the message.
+    Replace this with your actual chatbot logic.
+    """
+    # Simulate processing time
+    time.sleep(0.5)
+    
+    # Simple echo response - replace with your actual logic
+    response = f"You said: {message}\n\nThis is a demo response. Replace this with your actual chatbot logic!"
+    
+    return response
+
+def process_query_param(query, history):
+    """
+    Process the query parameter and automatically submit it.
+    This function is called when the page loads with a query parameter.
+    """
+    if query and query.strip():
+        # Add user message to history
+        history = history or []
+        history.append([query, None])
+        
+        # Get bot response
+        bot_response = chatbot_response(query, history)
+        history[-1][1] = bot_response
+        
+        return history, ""
+    return history, ""
+
+# Create the Gradio interface
+with gr.Blocks(title="Chatbot with URL Query Support") as demo:
+    gr.Markdown("# 🤖 Chatbot with URL Query Parameters")
+    gr.Markdown("Try accessing this app with `?query=your+question` in the URL!")
+    
+    # Hidden textbox to capture query parameter
+    query_param = gr.Textbox(visible=False, elem_id="query_param")
+    
+    # Chatbot interface
+    chatbot = gr.Chatbot(
+        label="Chat",
+        height=500,
+        show_copy_button=True
+    )
+    
+    # User input
+    msg = gr.Textbox(
+        label="Your message",
+        placeholder="Type your message here...",
+        lines=2
+    )
+    
+    # Buttons
+    with gr.Row():
+        submit = gr.Button("Send", variant="primary")
+        clear = gr.Button("Clear")
+    
+    # Example queries
+    gr.Examples(
+        examples=[
+            "What is machine learning?",
+            "How does Gradio work?",
+            "Tell me a joke"
+        ],
+        inputs=msg,
+        label="Example Questions"
+    )
+    
+    # Handle user input
+    def user_submit(user_message, history):
+        history = history or []
+        history.append([user_message, None])
+        return history, ""
+    
+    def bot_respond(history):
+        user_message = history[-1][0]
+        bot_message = chatbot_response(user_message, history)
+        history[-1][1] = bot_message
+        return history
+    
+    # Event handlers for normal chat
+    msg.submit(user_submit, [msg, chatbot], [chatbot, msg]).then(
+        bot_respond, chatbot, chatbot
+    )
+    
+    submit.click(user_submit, [msg, chatbot], [chatbot, msg]).then(
+        bot_respond, chatbot, chatbot
+    )
+    
+    clear.click(lambda: (None, ""), None, [chatbot, msg])
+    
+    # Handle query parameter on load
+    demo.load(
+        process_query_param,
+        inputs=[query_param, chatbot],
+        outputs=[chatbot, msg],
+        js="""
+        function() {
+            const params = new URLSearchParams(window.location.search);
+            const query = params.get('query');
+            return [query || '', null];
+        }
+        """
+    )
+
+# Launch the app
+if __name__ == "__main__":
+    demo.launch(
+        share=False,  # Set to True to create a public link
+        server_name="0.0.0.0",  # Allow external access
+        server_port=7860
+    )
